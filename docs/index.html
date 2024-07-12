@@ -1,79 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>title</title>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
 <body>
+<div id="app">
+    <el-container style="height: 500px; border: 1px solid #eee">
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+            <el-menu :default-openeds="['1', '3']">
+                <el-submenu index="1">
+                    <template slot="title"><i class="el-icon-message"></i>导航一</template>
+                    <el-menu-item-group>
+                        <template slot="title">分组一</template>
+                        <el-menu-item index="1-1" @click="change('README1.md')">选项1</el-menu-item>
+                        <el-menu-item index="1-2" @click="change('README2.md')">选项2</el-menu-item>
+                    </el-menu-item-group>
+                    <el-menu-item-group title="分组2">
+                        <el-menu-item index="1-3">选项3</el-menu-item>
+                    </el-menu-item-group>
+                    <el-submenu index="1-4">
+                        <template slot="title">选项4</template>
+                        <el-menu-item index="1-4-1">选项4-1</el-menu-item>
+                    </el-submenu>
+                </el-submenu>
+                <el-submenu index="2">
+                    <template slot="title"><i class="el-icon-menu"></i>导航二</template>
+                    <el-menu-item-group>
+                        <template slot="title">分组一</template>
+                        <el-menu-item index="2-1">选项1</el-menu-item>
+                        <el-menu-item index="2-2">选项2</el-menu-item>
+                    </el-menu-item-group>
+                    <el-menu-item-group title="分组2">
+                        <el-menu-item index="2-3">选项3</el-menu-item>
+                    </el-menu-item-group>
+                    <el-submenu index="2-4">
+                        <template slot="title">选项4</template>
+                        <el-menu-item index="2-4-1">选项4-1</el-menu-item>
+                    </el-submenu>
+                </el-submenu>
+                <el-submenu index="3">
+                    <template slot="title"><i class="el-icon-setting"></i>导航三</template>
+                    <el-menu-item-group>
+                        <template slot="title">分组一</template>
+                        <el-menu-item index="3-1">选项1</el-menu-item>
+                        <el-menu-item index="3-2">选项2</el-menu-item>
+                    </el-menu-item-group>
+                    <el-menu-item-group title="分组2">
+                        <el-menu-item index="3-3">选项3</el-menu-item>
+                    </el-menu-item-group>
+                    <el-submenu index="3-4">
+                        <template slot="title">选项4</template>
+                        <el-menu-item index="3-4-1">选项4-1</el-menu-item>
+                    </el-submenu>
+                </el-submenu>
+            </el-menu>
+        </el-aside>
 
-<!-- HTML 代码 -->
-<div class="container">
-    <div class="sidebar">
-        <nav>
-            <ul>
-                <li><a href="#no1" onclick="change('README1.md')">Section 1</a></li>
-                <li><a href="#no2" onclick="change('README2.md')">Section 2</a></li>
-                <li><a href="#no3" onclick="change('README3.md')">Section 3</a></li>
-                <li><a href="#no4" onclick="change('README4.md')">Section 4</a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="content" id="markdown-content">
+        <el-container >
+            <div id="markdown-content">
 
-    </div>
+            </div>
+        </el-container>
+    </el-container>
 </div>
 
-<!-- CSS 样式 -->
-<style>
-    .container {
-        display: flex;
-    }
-
-    .sidebar {
-        width: 200px;
-        background-color: #f1f1f1;
-        padding: 20px;
-    }
-
-    .sidebar nav ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    .sidebar nav ul li a {
-        display: block;
-        padding: 8px 16px;
-        text-decoration: none;
-        color: #333;
-    }
-
-    .sidebar nav ul li a:hover {
-        background-color: #e6e6e6;
-    }
-
-    .content {
-        flex-grow: 1;
-        padding: 20px;
-    }
-</style>
-
-<script>
-    function change(mk){
-        // 加载 Markdown 文件的 URL
-        fetch(mk)
-            .then(response => response.text())
-            .then(markdown => {
-                // 使用 marked.js 将 Markdown 转换为 HTML
-                const html = marked.parse(markdown);
-                // 将转换后的 HTML 插入到 DOM 中
-                document.getElementById('markdown-content').innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error loading Markdown file:', error);
-            });
-
-    }
-
-</script>
 </body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        methods: {
+            change(mk){
+                console.log(mk)
+                // 加载 Markdown 文件的 URL
+                fetch(mk)
+                    .then(response => response.text())
+                    .then(markdown => {
+                        // 使用 marked.js 将 Markdown 转换为 HTML
+                        const html = marked.parse(markdown);
+                        // 将转换后的 HTML 插入到 DOM 中
+                        console.log(html)
+                        document.getElementById('markdown-content').innerHTML = html;
+
+                        // document.getElementById('markdown-content').setAttribute('v-html',html);
+                    })
+                    .catch(error => {
+                        console.error('Error loading Markdown file:', error);
+                    });
+
+            }
+        },
+
+    })
+</script>
 </html>
