@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>title</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+<!-- HTML 代码 -->
+<div class="container">
+    <div class="sidebar">
+        <nav>
+            <ul>
+                <li><a href="#no1" onclick="change('README1.md')">Section 1</a></li>
+                <li><a href="#no2" onclick="change('README2.md')">Section 2</a></li>
+                <li><a href="#no3" onclick="change('README3.md')">Section 3</a></li>
+                <li><a href="#no4" onclick="change('README4.md')">Section 4</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="content" id="markdown-content">
+
+    </div>
+</div>
+
+<!-- CSS 样式 -->
+<style>
+    .container {
+        display: flex;
+    }
+
+    .sidebar {
+        width: 200px;
+        background-color: #f1f1f1;
+        padding: 20px;
+    }
+
+    .sidebar nav ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .sidebar nav ul li a {
+        display: block;
+        padding: 8px 16px;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .sidebar nav ul li a:hover {
+        background-color: #e6e6e6;
+    }
+
+    .content {
+        flex-grow: 1;
+        padding: 20px;
+    }
+</style>
+
+<script>
+    function change(mk){
+        // 加载 Markdown 文件的 URL
+        fetch(mk)
+            .then(response => response.text())
+            .then(markdown => {
+                // 使用 marked.js 将 Markdown 转换为 HTML
+                const html = marked.parse(markdown);
+                // 将转换后的 HTML 插入到 DOM 中
+                document.getElementById('markdown-content').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading Markdown file:', error);
+            });
+
+    }
+
+</script>
+</body>
+</html>
